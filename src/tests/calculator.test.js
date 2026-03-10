@@ -47,15 +47,60 @@ describe('Calculator CLI', () => {
     });
   });
 
+  describe('Modulo', () => {
+    it('modulo 10 % 3 = 1', () => {
+      assert.strictEqual(runCalc('modulo', 10, 3), 'Result: 1');
+    });
+    it('modulo 15 % 4 = 3', () => {
+      assert.strictEqual(runCalc('modulo', 15, 4), 'Result: 3');
+    });
+    it('modulo by zero', () => {
+      assert.strictEqual(runCalc('modulo', 10, 0), 'Error: Modulo by zero is not allowed.');
+    });
+    it('modulo with mod alias', () => {
+      assert.strictEqual(runCalc('mod', 20, 6), 'Result: 2');
+    });
+  });
+
+  describe('Exponentiation (Power)', () => {
+    it('power 2 ^ 3 = 8', () => {
+      assert.strictEqual(runCalc('power', 2, 3), 'Result: 8');
+    });
+    it('power 5 ^ 0 = 1', () => {
+      assert.strictEqual(runCalc('power', 5, 0), 'Result: 1');
+    });
+    it('power with exp alias', () => {
+      assert.strictEqual(runCalc('exp', 3, 2), 'Result: 9');
+    });
+  });
+
+  describe('Square Root', () => {
+    it('squareRoot of 16 = 4', () => {
+      assert.strictEqual(runCalc('squareRoot', 16), 'Result: 4');
+    });
+    it('squareRoot of 25 = 5', () => {
+      assert.strictEqual(runCalc('squareRoot', 25), 'Result: 5');
+    });
+    it('squareRoot with sqrt alias', () => {
+      assert.strictEqual(runCalc('sqrt', 9), 'Result: 3');
+    });
+    it('squareRoot of negative number', () => {
+      assert.strictEqual(runCalc('squareRoot', -4), 'Error: Square root of negative number is not allowed.');
+    });
+  });
+
   describe('Edge Cases', () => {
     it('handles invalid operation', () => {
-      assert.strictEqual(runCalc('mod', 10, 2), 'Error: Unsupported operation. Use add, subtract, multiply, or divide.');
+      assert.strictEqual(runCalc('foo', 10, 2), 'Error: Unsupported operation. Use add, subtract, multiply, divide, mod, modulo, exp, power, sqrt, or squareRoot.');
     });
     it('handles non-numeric input', () => {
       assert.strictEqual(runCalc('add', 'a', 2), 'Error: All arguments after the operation must be numbers.');
     });
     it('requires at least two numbers', () => {
-      assert.strictEqual(runCalc('add', 2), 'Usage: calculator <add|subtract|multiply|divide> <num1> <num2> [num3 ...]');
+      assert.strictEqual(runCalc('add', 2), 'Usage: calculator <add|subtract|multiply|divide|mod|exp> <num1> <num2> [num3 ...]\nUsage: calculator sqrt <num>');
+    });
+    it('requires one number for squareRoot', () => {
+      assert.strictEqual(runCalc('squareRoot', 4, 5), 'Usage: calculator <add|subtract|multiply|divide|mod|exp> <num1> <num2> [num3 ...]\nUsage: calculator sqrt <num>');
     });
   });
 });
